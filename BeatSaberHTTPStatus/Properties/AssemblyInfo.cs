@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("BeatSaberHTTPStatus")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("opl")]
+[assembly: AssemblyCompany("opl (CaiB Fork)")]
 [assembly: AssemblyProduct("BeatSaberHTTPStatus")]
 [assembly: AssemblyCopyright("Copyright © 2018-2019")]
 [assembly: AssemblyTrademark("")]
@@ -32,6 +32,6 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 // Populated by MSBuild
-[assembly: AssemblyVersion("$VERSION$.0")]
+[assembly: AssemblyVersion("1.11.10.1")]
 // Populated by MSBuild
-[assembly: AssemblyFileVersion("$VERSION$.0")]
+[assembly: AssemblyFileVersion("1.11.10.1")]

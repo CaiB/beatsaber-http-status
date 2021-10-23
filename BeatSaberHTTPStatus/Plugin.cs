@@ -186,6 +186,7 @@ namespace BeatSaberHTTPStatus {
 
 				IDifficultyBeatmap diff = gameplayCoreSceneSetupData.difficultyBeatmap;
 				IBeatmapLevel level = diff.level;
+				CustomBeatmapLevel customLevel = (level is CustomBeatmapLevel custom) ? custom : null;
 
 				gameStatus.partyMode = Gamemode.IsPartyActive;
 				gameStatus.mode = Gamemode.GameMode;
@@ -207,6 +208,7 @@ namespace BeatSaberHTTPStatus {
 				// 13 is "custom_level_" and 40 is the magic number for the length of the SHA-1 hash
 				gameStatus.songHash = level.levelID.StartsWith("custom_level_") && !level.levelID.EndsWith(" WIP") ? level.levelID.Substring(13, 40) : null;
 				gameStatus.levelId = level.levelID;
+				gameStatus.levelFileLocation = customLevel?.customLevelPath;
 				gameStatus.songTimeOffset = (long) (level.songTimeOffset * 1000f / songSpeedMul);
 				gameStatus.length = (long) (level.beatmapLevelData.audioClip.length * 1000f / songSpeedMul);
 				gameStatus.start = GetCurrentTime() - (long) (audioTimeSyncController.songTime * 1000f / songSpeedMul);

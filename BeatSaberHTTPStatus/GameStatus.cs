@@ -17,6 +17,7 @@ namespace BeatSaberHTTPStatus {
 		public string songCover = null;
 		public string songHash = null;
 		public string levelId = null;
+		public string levelFileLocation = null;
 		public float songBPM;
 		public float noteJumpSpeed;
 		public long songTimeOffset = 0;
@@ -118,6 +119,7 @@ namespace BeatSaberHTTPStatus {
 			this.songCover = null;
 			this.songHash = null;
 			this.levelId = null;
+			this.levelFileLocation = null;
 			this.songBPM = 0f;
 			this.noteJumpSpeed = 0f;
 			this.songTimeOffset = 0;
