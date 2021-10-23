@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -14,7 +14,7 @@
     <TargetFrameworkProfile />
     <Version>1.11.3</Version>
     <BeatSaberVersion>1.11.0</BeatSaberVersion>
-    <GameDirPath>..\libs\beatsaber\</GameDirPath>
+    <GameDirPath>C:\Program Files (x86)\Steam\steamapps\common\Beat Saber</GameDirPath>
     <SemVerVersion>$(Version)</SemVerVersion>
     <CopyToPlugins Condition=" '$(CopyToPlugins)' == '' ">true</CopyToPlugins>
   </PropertyGroup>
@@ -59,29 +59,28 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>$(GameDirPath)Beat Saber_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>$(GameDirPath)Beat Saber_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>$(GameDirPath)Beat Saber_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>$(GameDirPath)Beat Saber_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="BS_Utils, Culture=neutral">
-      <HintPath>$(GameDirPath)Plugins\BS_Utils.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Beat Saber\Plugins\BS_Utils.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <ProjectReference Include="..\libs\websocket-sharp\websocket-sharp\websocket-sharp.csproj">
-      <Project>{B357BAC7-529E-4D81-A0D2-71041B19C8DE}</Project>
-      <Name>websocket-sharp</Name>
-    </ProjectReference>
+    <Reference Include="websocket-sharp">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\websocket-sharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="**\*.cs" Exclude="bin\**\*;obj\**\*" />
@@ -118,10 +117,10 @@
   </Target>
   <!-- Copy the plugin to the Beat Saber installation -->
   <Target Name="CopyToPlugins" AfterTargets="AfterBuild" Condition=" '$(CopyToPlugins)' != '' And $(CopyToPlugins) ">
-    <Message Text="Copying $(OutDir)BeatSaberHTTPStatus.dll to Plugins folder" Importance="high"/>
-    <Copy SourceFiles="$(OutDir)BeatSaberHTTPStatus.dll" DestinationFiles="$(GameDirPath)Plugins\BeatSaberHTTPStatus.dll"/>
-    <Message Text="Copying $(OutDir)websocket-sharp.dll to Beat Saber_Data folder" Importance="high"/>
-    <Copy SourceFiles="$(OutDir)websocket-sharp.dll" DestinationFiles="$(GameDirPath)Beat Saber_Data\Managed\websocket-sharp.dll"/>
+    <Message Text="Copying $(OutDir)BeatSaberHTTPStatus.dll to Plugins folder" Importance="high" />
+    <Copy SourceFiles="$(OutDir)BeatSaberHTTPStatus.dll" DestinationFiles="$(GameDirPath)Plugins\BeatSaberHTTPStatus.dll" />
+    <Message Text="Copying $(OutDir)websocket-sharp.dll to Beat Saber_Data folder" Importance="high" />
+    <Copy SourceFiles="$(OutDir)websocket-sharp.dll" DestinationFiles="$(GameDirPath)Beat Saber_Data\Managed\websocket-sharp.dll" />
   </Target>
   <!-- Package built DLLs into a zip -->
   <Target Name="CreateZip" AfterTargets="AfterBuild" Condition=" '$(OutputZip)' != '' And $(OutputZip) ">
@@ -180,15 +179,13 @@
       <Using Namespace="System" />
       <Using Namespace="System.IO" />
       <Using Namespace="System.Text.RegularExpressions" />
-      <Code Type="Fragment" Language="cs">
-        <![CDATA[
+      <Code Type="Fragment" Language="cs"><![CDATA[
           Log.LogMessage(string.Format("Replacing {0} in {1} to {2}", MatchExpression, InputFilename, ReplacementText));
           File.WriteAllText(
             OutputFilename,
             File.ReadAllText(InputFilename).Replace(MatchExpression, ReplacementText)
           );
-        ]]>
-      </Code>
+        ]]></Code>
     </Task>
   </UsingTask>
 </Project>

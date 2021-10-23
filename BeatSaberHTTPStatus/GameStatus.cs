@@ -34,6 +34,7 @@ namespace BeatSaberHTTPStatus {
 		// Performance
 		public int score = 0;
 		public int currentMaxScore = 0;
+		public float songPosition = 0;
 		public string rank = "E";
 		public int passedNotes = 0;
 		public int hitNotes = 0;
@@ -134,6 +135,7 @@ namespace BeatSaberHTTPStatus {
 		public void ResetPerformance() {
 			this.score = 0;
 			this.currentMaxScore = 0;
+			this.songPosition = 0;
 			this.rank = "E";
 			this.passedNotes = 0;
 			this.hitNotes = 0;

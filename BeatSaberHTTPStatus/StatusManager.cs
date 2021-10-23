@@ -87,6 +87,7 @@ namespace BeatSaberHTTPStatus {
 			beatmapJSON["noteJumpSpeed"] = gameStatus.noteJumpSpeed;
 			beatmapJSON["songTimeOffset"] = new JSONNumber(gameStatus.songTimeOffset);
 			beatmapJSON["start"] = gameStatus.start == 0 ? (JSONNode) JSONNull.CreateOrGet() : (JSONNode) new JSONNumber(gameStatus.start);
+			beatmapJSON["songPosition"] = gameStatus.songPosition;
 			beatmapJSON["paused"] = gameStatus.paused == 0 ? (JSONNode) JSONNull.CreateOrGet() : (JSONNode) new JSONNumber(gameStatus.paused);
 			beatmapJSON["length"] = new JSONNumber(gameStatus.length);
 			beatmapJSON["difficulty"] = stringOrNull(gameStatus.difficulty);
@@ -121,6 +122,7 @@ namespace BeatSaberHTTPStatus {
 			performanceJSON["multiplier"] = gameStatus.multiplier;
 			performanceJSON["multiplierProgress"] = gameStatus.multiplierProgress;
 			performanceJSON["batteryEnergy"] = gameStatus.modBatteryEnergy || gameStatus.modInstaFail ? (JSONNode) new JSONNumber(gameStatus.batteryEnergy) : (JSONNode) JSONNull.CreateOrGet();
+			performanceJSON["songPosition"] = gameStatus.songPosition;
 		}
 
 		private void UpdateNoteCutJSON() {

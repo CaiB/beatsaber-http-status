@@ -211,6 +211,7 @@ namespace BeatSaberHTTPStatus {
 				gameStatus.length = (long) (level.beatmapLevelData.audioClip.length * 1000f / songSpeedMul);
 				gameStatus.start = GetCurrentTime() - (long) (audioTimeSyncController.songTime * 1000f / songSpeedMul);
 				if (practiceSettings != null) gameStatus.start -= (long) (practiceSettings.startSongTime * 1000f / songSpeedMul);
+				gameStatus.songPosition = (long)(audioTimeSyncController.songTime * 1000f / songSpeedMul);
 				gameStatus.paused = 0;
 				gameStatus.difficulty = diff.difficulty.Name();
 				gameStatus.notesCount = diff.beatmapData.notesCount;
@@ -293,6 +294,7 @@ namespace BeatSaberHTTPStatus {
 
 		public void OnUpdate() {
 			bool currentHeadInObstacle = false;
+			statusManager.gameStatus.songPosition = (long)(audioTimeSyncController.songTime * 1000f / statusManager.gameStatus.songSpeedMultiplier);
 
 			if (playerHeadAndObstacleInteraction != null) {
 				currentHeadInObstacle = playerHeadAndObstacleInteraction.intersectingObstacles.Count > 0;
@@ -311,12 +313,14 @@ namespace BeatSaberHTTPStatus {
 
 		public void OnGamePause() {
 			statusManager.gameStatus.paused = GetCurrentTime();
+			statusManager.gameStatus.songPosition = (long)(audioTimeSyncController.songTime * 1000f / statusManager.gameStatus.songSpeedMultiplier);
 
 			statusManager.EmitStatusUpdate(ChangedProperties.Beatmap, "pause");
 		}
 
 		public void OnGameResume() {
 			statusManager.gameStatus.start = GetCurrentTime() - (long) (audioTimeSyncController.songTime * 1000f / statusManager.gameStatus.songSpeedMultiplier);
+			statusManager.gameStatus.songPosition = (long)(audioTimeSyncController.songTime * 1000f / statusManager.gameStatus.songSpeedMultiplier);
 			statusManager.gameStatus.paused = 0;
 
 			statusManager.EmitStatusUpdate(ChangedProperties.Beatmap, "resume");
@@ -339,6 +343,7 @@ namespace BeatSaberHTTPStatus {
 			gameStatus.finalScore = -1;
 			gameStatus.cutDistanceScore = cutDistanceScore;
 			gameStatus.cutMultiplier = multiplier;
+			gameStatus.songPosition = (long)(audioTimeSyncController.songTime * 1000f / statusManager.gameStatus.songSpeedMultiplier);
 
 			if (noteData.noteType == NoteType.Bomb) {
 				gameStatus.passedBombs++;
@@ -393,6 +398,7 @@ namespace BeatSaberHTTPStatus {
 			statusManager.gameStatus.finalScore = beforeCutScore + afterCutScore + cutDistanceScore;
 			statusManager.gameStatus.cutDistanceScore = cutDistanceScore;
 			statusManager.gameStatus.cutMultiplier = multiplier;
+			statusManager.gameStatus.songPosition = (long)(audioTimeSyncController.songTime * 1000f / statusManager.gameStatus.songSpeedMultiplier);
 
 			statusManager.EmitStatusUpdate(ChangedProperties.PerformanceAndNoteCut, "noteFullyCut");
 
@@ -438,6 +444,7 @@ namespace BeatSaberHTTPStatus {
 			// Event order: combo, multiplier, scoreController.noteWasMissed, (LateUpdate) scoreController.scoreDidChange
 
 			statusManager.gameStatus.batteryEnergy = gameEnergyCounter.batteryEnergy;
+			statusManager.gameStatus.songPosition = (long)(audioTimeSyncController.songTime * 1000f / statusManager.gameStatus.songSpeedMultiplier);
 
 			SetNoteCutStatus(noteData);
 
