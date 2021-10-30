@@ -40,7 +40,7 @@ namespace BeatSaberHTTPStatus {
 		private PlayerHeadAndObstacleInteraction playerHeadAndObstacleInteraction;
 		private GameEnergyCounter gameEnergyCounter;
 		private Dictionary<NoteCutInfo, NoteData> noteCutMapping = new Dictionary<NoteCutInfo, NoteData>();
-
+		
 		/// protected NoteCutInfo CutScoreBuffer._noteCutInfo
 		private FieldInfo noteCutInfoField = typeof(CutScoreBuffer).GetField("_noteCutInfo", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 		/// protected List<CutScoreBuffer> ScoreController._cutScoreBuffers // contains a list of after cut buffers
@@ -195,6 +195,28 @@ namespace BeatSaberHTTPStatus {
 				PlayerSpecificSettings playerSettings = gameplayCoreSceneSetupData.playerSpecificSettings;
 				PracticeSettings practiceSettings = gameplayCoreSceneSetupData.practiceSettings;
 
+				PlayerLevelStatsData[] LevelStats = new PlayerLevelStatsData[5];
+
+				PlayerDataModel PlayerData = Resources.FindObjectsOfTypeAll<PlayerDataModel>().First();
+				if (PlayerData != null)
+				{
+					LevelStats[0] = diff.parentDifficultyBeatmapSet.difficultyBeatmaps.Where(x => x.difficulty == BeatmapDifficulty.Easy).Any() ? 
+						PlayerData.playerData.GetPlayerLevelStatsData(level.levelID, BeatmapDifficulty.Easy, diff.parentDifficultyBeatmapSet.beatmapCharacteristic) :
+						null;
+					LevelStats[1] = diff.parentDifficultyBeatmapSet.difficultyBeatmaps.Where(x => x.difficulty == BeatmapDifficulty.Normal).Any() ? 
+						PlayerData.playerData.GetPlayerLevelStatsData(level.levelID, BeatmapDifficulty.Normal, diff.parentDifficultyBeatmapSet.beatmapCharacteristic) :
+						null;
+					LevelStats[2] = diff.parentDifficultyBeatmapSet.difficultyBeatmaps.Where(x => x.difficulty == BeatmapDifficulty.Hard).Any() ? 
+						PlayerData.playerData.GetPlayerLevelStatsData(level.levelID, BeatmapDifficulty.Hard, diff.parentDifficultyBeatmapSet.beatmapCharacteristic):
+						null;
+					LevelStats[3] = diff.parentDifficultyBeatmapSet.difficultyBeatmaps.Where(x => x.difficulty == BeatmapDifficulty.Expert).Any() ? 
+						PlayerData.playerData.GetPlayerLevelStatsData(level.levelID, BeatmapDifficulty.Expert, diff.parentDifficultyBeatmapSet.beatmapCharacteristic) :
+						null;
+					LevelStats[4] = diff.parentDifficultyBeatmapSet.difficultyBeatmaps.Where(x => x.difficulty == BeatmapDifficulty.ExpertPlus).Any() ? 
+						PlayerData.playerData.GetPlayerLevelStatsData(level.levelID, BeatmapDifficulty.ExpertPlus, diff.parentDifficultyBeatmapSet.beatmapCharacteristic) :
+						null;
+				}
+
 				float songSpeedMul = gameplayModifiers.songSpeedMul;
 				if (practiceSettings != null) songSpeedMul = practiceSettings.songSpeedMul;
 				float modifierMultiplier = gameplayModifiersSO.GetTotalMultiplier(gameplayModifiers);
@@ -208,6 +230,7 @@ namespace BeatSaberHTTPStatus {
 				// 13 is "custom_level_" and 40 is the magic number for the length of the SHA-1 hash
 				gameStatus.songHash = level.levelID.StartsWith("custom_level_") && !level.levelID.EndsWith(" WIP") ? level.levelID.Substring(13, 40) : null;
 				gameStatus.levelId = level.levelID;
+				gameStatus.levelStats = LevelStats;
 				gameStatus.levelFileLocation = customLevel?.customLevelPath;
 				gameStatus.songTimeOffset = (long) (level.songTimeOffset * 1000f / songSpeedMul);
 				gameStatus.length = (long) (level.beatmapLevelData.audioClip.length * 1000f / songSpeedMul);

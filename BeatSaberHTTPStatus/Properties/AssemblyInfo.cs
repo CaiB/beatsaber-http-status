@@ -32,6 +32,6 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 // Populated by MSBuild
-[assembly: AssemblyVersion("1.11.10.1")]
+[assembly: AssemblyVersion("1.11.11.1")]
 // Populated by MSBuild
-[assembly: AssemblyFileVersion("1.11.10.1")]
+[assembly: AssemblyFileVersion("1.11.11.1")]

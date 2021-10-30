@@ -18,6 +18,7 @@ namespace BeatSaberHTTPStatus {
 		public string songHash = null;
 		public string levelId = null;
 		public string levelFileLocation = null;
+		public PlayerLevelStatsData[] levelStats = null;
 		public float songBPM;
 		public float noteJumpSpeed;
 		public long songTimeOffset = 0;

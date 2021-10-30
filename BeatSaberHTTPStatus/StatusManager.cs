@@ -76,6 +76,29 @@ namespace BeatSaberHTTPStatus {
 			if (_statusJSON["beatmap"] == null) _statusJSON["beatmap"] = new JSONObject();
 			JSONObject beatmapJSON = (JSONObject) _statusJSON["beatmap"];
 
+			JSONObject MakeStatsArray(PlayerLevelStatsData stats)
+            {
+				JSONObject Result = new JSONObject();
+				Result["isFullCombo"] = stats.fullCombo;
+				Result["highScore"] = stats.highScore;
+				Result["maxCombo"] = stats.maxCombo;
+				Result["playCount"] = stats.playCount;
+				Result["scoreIsValid"] = stats.validScore;
+				Result["maxRank"] = stats.maxRank.ToString();
+				return Result;
+            }
+
+			JSONObject levelStatsJSON = new JSONObject();
+			if (gameStatus.levelStats != null)
+			{
+				PlayerLevelStatsData[] Stats = gameStatus.levelStats;
+				if (Stats[0] != null) { levelStatsJSON["easy"] = MakeStatsArray(Stats[0]); }
+				if (Stats[1] != null) { levelStatsJSON["normal"] = MakeStatsArray(Stats[1]); }
+				if (Stats[2] != null) { levelStatsJSON["hard"] = MakeStatsArray(Stats[2]); }
+				if (Stats[3] != null) { levelStatsJSON["expert"] = MakeStatsArray(Stats[3]); }
+				if (Stats[4] != null) { levelStatsJSON["expertPlus"] = MakeStatsArray(Stats[4]); }
+			}
+
 			beatmapJSON["songName"] = stringOrNull(gameStatus.songName);
 			beatmapJSON["songSubName"] = stringOrNull(gameStatus.songSubName);
 			beatmapJSON["songAuthorName"] = stringOrNull(gameStatus.songAuthorName);
@@ -84,6 +107,7 @@ namespace BeatSaberHTTPStatus {
 			beatmapJSON["songHash"] = stringOrNull(gameStatus.songHash);
 			beatmapJSON["levelId"] = stringOrNull(gameStatus.levelId);
 			beatmapJSON["levelFileLocation"] = stringOrNull(gameStatus.levelFileLocation);
+			beatmapJSON["levelStats"] = levelStatsJSON;
 			beatmapJSON["songBPM"] = gameStatus.songBPM;
 			beatmapJSON["noteJumpSpeed"] = gameStatus.noteJumpSpeed;
 			beatmapJSON["songTimeOffset"] = new JSONNumber(gameStatus.songTimeOffset);
