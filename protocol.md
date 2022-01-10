@@ -10,7 +10,7 @@ The web server by default runs on port `6557` (**B**eat **S**aber **ST**atus). S
 
 ### `GET /status.json`
 
-Returns the [Status object](#status-object).
+Returns the [Status object](#status-object). Avoid using this, and instead use the WebSocket:
 
 ### `/socket`
 
@@ -45,10 +45,13 @@ StatusObject = {
 		"songCover": null | String, // Base64 encoded PNG image of the song cover
 		"songHash": String, // Unique beatmap identifier. Same for all difficulties. Is extracted from the levelId and will return null for OST and WIP songs.
 		"levelId": String, // Raw levelId for a song. Same for all difficulties. 
+(new)	"levelFileLocation": String, // The location on disk of the beatmap files
+(new)	"levelStats": Object, // See [Statistics array](#statistics-array).
 		"songBPM": Number, // Song Beats Per Minute
 		"noteJumpSpeed": Number, // Song note jump movement speed, how fast the notes move towards the player.
 		"songTimeOffset": Integer, // Time in millis of where in the song the beatmap starts. Adjusted for song speed multiplier.
 		"start": null | Integer, // UNIX timestamp in millis of when the map was started. Changes if the game is resumed. Might be altered by practice settings.
+(new)	"songPosition": Number, // The current position in the song, in milliseconds
 		"paused": null | Integer, // If game is paused, UNIX timestamp in millis of when the map was paused. null otherwise.
 		"length": Integer, // Length of map in millis. Adjusted for song speed multiplier.
 		"difficulty": "Easy" | "Normal" | "Hard" | "Expert" | "ExpertPlus", // Beatmap difficulty
@@ -73,6 +76,7 @@ StatusObject = {
 		"multiplier": Integer, // Current combo multiplier {1, 2, 4, 8}
 		"multiplierProgress": Number, // Current combo multiplier progress [0..1)
 		"batteryEnergy": null | Integer, // Current amount of battery lives left. null if Battery Energy and Insta Fail are disabled.
+(new)	"songPosition": Number // The current position in the song, in milliseconds
 	},
 	"mod": {
 		"multiplier": Number, // Current score multiplier for gameplay modifiers
@@ -143,6 +147,28 @@ NoteCutObject = {
 	],
 	"cutDistanceToCenter": Number, // Distance from the center of the note to the cut plane
 	"timeToNextBasicNote": Number, // Time until next note in seconds
+}
+```
+
+### Statistics array
+```js
+StatisticsArray = {
+	"easy": Object, // Only present if there is an easy difficulty. See below StatisticsObject.
+	"normal": Object, // Only present if there is a normal difficulty. See below StatisticsObject.
+	"hard": Object, // Only present if there is a hard difficulty. See below StatisticsObject.
+	"expert": Object, // Only present if there is an expert difficulty. See below StatisticsObject.
+	"expertPlus": Object // Only present if there is an expert+ difficulty. See below StatisticsObject.
+}
+```
+
+```js
+StatisticsObject = {
+	"isFullCombo": Boolean, // Whether a full combo was achieved previously
+	"highScore": Integer, // The previous high score
+	"maxCombo": Integer, // The previous max combo
+	"playCount": Integer, // The number of times this level+difficulty has been played before
+	"scoreIsValid": Boolean, // Whether the score/combo are valid. False if none have been set yet
+	"maxRank": String // The previous best rank
 }
 ```
 

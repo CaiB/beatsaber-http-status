@@ -1,7 +1,23 @@
-# Beat Saber HTTP Status
+# Beat Saber HTTP Status: CaiB's 1.11.1 Fork
 
-This plugin exposes information about the current game status, live over a WebSocket and over HTTP. It can be used to build [custom stream overlays](https://github.com/opl-/beatsaber-http-status/wiki/Software-using-this-plugin#overlays) or track player performance by third party programs.
+This plugin exposes information about the current game status, live over a WebSocket and over HTTP.
 
+This fork is where I've made some enhancements and additions to support [my custom stream overlay](https://github.com/CaiB/SaberStream), and is only intended to run on Beat Saber version 1.11.1 with the unofficial multiplayer mod.
+
+Additional data that is available compared to the upstream 1.11.1 version:
+- Statistics for each difficulty of the current map
+  - Whether or not you have gotten a full combo previously
+  - Previous best score
+  - Previous best rank
+  - Previous max combo
+  - Number of times map has been played
+  - Whether a score has been set
+- Location of the currently played level on disk
+- The time in the song of every object that is hit
+
+Below is the remainder of the general info about the mod.
+
+# Upstream Mod Info
 
 ## Installation
 
