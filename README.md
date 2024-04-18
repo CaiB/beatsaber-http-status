@@ -15,6 +15,8 @@ Additional data that is available compared to the upstream 1.11.1 version:
 - Location of the currently played level on disk
 - The time in the song of every object that is hit
 
+SteamVR's poor reliability and performance has caused me to lose interest in VR, hence I sold my hardware and no longer play Beat Saber. As such, this repository is archived and unmaintained.
+
 Below is the remainder of the general info about the mod.
 
 # Upstream Mod Info
